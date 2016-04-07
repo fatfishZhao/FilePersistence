@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         String inputText = edit.getText().toString();
         save(inputText);
+        Toast.makeText(MainActivity.this,inputText,Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void save(String inputText){
-        FileOutputStream out = null;
+        FileOutputStream out;
         BufferedWriter writer = null;
         try{
             out = openFileOutput("data",MODE_PRIVATE);

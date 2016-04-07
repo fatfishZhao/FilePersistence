@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         String inputText = edit.getText().toString();
         save(inputText);
-        Toast.makeText(MainActivity.this,inputText,Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this,inputText,Toast.LENGTH_LONG).show();
     }
 
     @Override

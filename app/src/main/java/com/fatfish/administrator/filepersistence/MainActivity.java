@@ -5,15 +5,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         edit = (EditText)findViewById(R.id.edit);
+        String inputText = load();
+        if(!TextUtils.isEmpty(inputText)){
+            edit.setText(inputText);
+            edit.setSelection(inputText.length());
+            Toast.makeText(this,"Restoring succeed",Toast.LENGTH_SHORT).show();
+        }
 
        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         String inputText = edit.getText().toString();
         save(inputText);
-        Toast.makeText(MainActivity.this,inputText,Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, inputText, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -86,4 +96,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    public String load(){
+        FileInputStream in;
+        BufferedReader reader;
+        StringBuilder content = new StringBuilder();
+        try {
+            in = openFileInput("data");
+            reader = new BufferedReader(new InputStreamReader(in));
+            String line;
+            while((line = reader.readLine()) != null){
+                content.append(line);
+            }
+            }catch(IOException e) {
+            e.printStackTrace();
+        }
+        return content.toString();
+    }
+
 }
